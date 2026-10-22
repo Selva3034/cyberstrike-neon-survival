@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b14">
+  <meta name="description" content="CyberStrike: Neon Survival — a neon cyberpunk browser action game.">
+  <title>CyberStrike | Neon Survival</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="CyberStrike home">
+        <span class="brand-icon">C</span>
+        <span>CYBER<span class="accent">STRIKE</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="version">NEON SURVIVAL <i class="live-dot"></i></span>
+        <button id="sound-btn" class="icon-btn" type="button" aria-label="Toggle sound">SOUND: ON</button>
+      </div>
+    </header>
+
+    <section class="game-layout">
+      <aside class="sidebar">
+        <p class="eyebrow">MISSION CONTROL</p>
+        <h1>Survive the<br><span class="accent">outbreak.</span></h1>
+        <p class="description">Enter the arena. Eliminate hostile drones. Complete every mission and take down the Core.</p>
+
+        <div class="stats-grid">
+          <div class="stat-card"><span class="stat-label">LEVEL</span><strong id="level">01</strong></div>
+          <div class="stat-card"><span class="stat-label">WAVE</span><strong id="wave">01 / 03</strong></div>
+          <div class="stat-card"><span class="stat-label">SCORE</span><strong id="score">000000</strong></div>
+          <div class="stat-card"><span class="stat-label">BEST</span><strong id="best-score">000000</strong></div>
+        </div>
+
+        <div class="health-section">
+          <div class="health-heading"><span>ARMOR INTEGRITY</span><strong id="health-text">100%</strong></div>
+          <div class="health-track"><div id="health-bar"></div></div>
+        </div>
+
+        <div class="weapon-card">
+          <span class="stat-label">ACTIVE WEAPON</span>
+          <strong id="weapon-name">PULSE PISTOL</strong>
+          <span id="weapon-description">Balanced · Standard fire</span>
+        </div>
+
+        <button id="start-btn" class="primary-btn" type="button">START CAMPAIGN <span>→</span></button>
+        <button id="pause-btn" class="secondary-btn" type="button" disabled>PAUSE GAME</button>
+
+        <div class="controls">
+          <p class="stat-label">CONTROLS</p>
+          <p><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrows <span>Move</span></p>
+          <p><kbd>Mouse</kbd> <span>Aim</span></p>
+          <p><kbd>Click</kbd> / <kbd>Space</kbd> <span>Shoot</span></p>
+          <p><kbd>Esc</kbd> <span>Pause</span></p>
+          <p><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <span>Weapon</span></p>
+        </div>
+        <p class="small-note">PROGRESS AND HIGH SCORE ARE SAVED ON THIS DEVICE.</p>
+      </aside>
+
+      <section class="arena-panel" aria-label="Game arena">
+        <div class="arena-header">
+          <span><i class="live-dot"></i> ARENA STATUS</span>
+          <span id="status">STANDBY</span>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="game" aria-label="CyberStrike game arena"></canvas>
+          <div id="overlay" class="overlay">
+            <div class="overlay-content">
+              <span id="overlay-tag" class="mission-tag">CAMPAIGN // MISSION 001</span>
+              <h2 id="overlay-title">READY TO<br><span class="accent">DEPLOY?</span></h2>
+              <p id="overlay-text">Survive three waves per level. Defeat the Core to complete the campaign.</p>
+              <button id="overlay-btn" class="primary-btn" type="button">ENTER THE ARENA →</button>
+            </div>
+          </div>
+          <div id="toast" class="toast" aria-live="polite"></div>
+        </div>
+        <div class="arena-footer">
+          <span>THREAT: <strong id="threat">LOW</strong></span>
+          <span>ELIMINATIONS: <strong id="kills">0</strong></span>
+          <span>TIME: <strong id="clock">00:00</strong></span>
+        </div>
+      </section>
+    </section>
+
+    <footer class="footer">
+      <span>CYBERSTRIKE © 2026</span>
+      <span>BUILT FOR SURVIVAL <span class="accent">■</span></span>
+    </footer>
+  </main>
+</body>
+</html>
