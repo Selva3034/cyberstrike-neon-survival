@@ -679,3 +679,94 @@ canvas {
     transition-duration: .01ms !important;
   }
 }
+
+/* Interactive weapon loadout */
+.loadout-panel {
+  margin: 16px 0;
+  padding: 15px;
+  background: linear-gradient(145deg, #101b2b, #080e19);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.loadout-subtitle {
+  margin: 7px 0 13px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.loadout-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 11px 9px;
+  color: var(--text);
+  text-align: left;
+  background: #09111e;
+  border: 1px solid #23364a;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .2s;
+}
+
+.loadout-option:hover {
+  transform: translateX(3px);
+  border-color: var(--cyan);
+}
+
+.loadout-option.selected {
+  background: #103033;
+  border-color: var(--cyan);
+  box-shadow: inset 3px 0 var(--cyan), 0 0 16px #35f2e510;
+}
+
+.weapon-number {
+  color: var(--cyan);
+  font: 700 12px var(--font-display);
+}
+
+.weapon-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.weapon-info strong {
+  font: 700 9px var(--font-display);
+}
+
+.weapon-info small {
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.weapon-status {
+  color: var(--muted);
+  font: 8px var(--font-display);
+}
+
+.loadout-option.selected .weapon-status {
+  color: var(--cyan);
+}
+
+@media (max-width: 420px) {
+  .loadout-panel {
+    padding: 11px;
+  }
+
+  .loadout-option {
+    gap: 7px;
+    padding: 10px 7px;
+  }
+
+  .weapon-status {
+    font-size: 7px;
+  }
+}
+

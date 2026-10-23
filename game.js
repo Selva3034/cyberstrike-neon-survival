@@ -584,3 +584,27 @@
   initState();
   draw();
 })();
+
+function updateLoadoutUI() {
+  document.querySelectorAll(".loadout-option").forEach((button) => {
+    const selected = Number(button.dataset.weapon) === weaponIndex;
+
+    button.classList.toggle("selected", selected);
+
+    const status = button.querySelector(".weapon-status");
+    if (status) {
+      status.textContent = selected ? "EQUIPPED" : "SELECT";
+    }
+
+    button.setAttribute("aria-pressed", String(selected));
+  });
+}
+
+document.querySelectorAll(".loadout-option").forEach((button) => {
+  button.addEventListener("click", () => {
+    changeWeapon(Number(button.dataset.weapon));
+    updateLoadoutUI();
+  });
+});
+
+updateLoadoutUI();
