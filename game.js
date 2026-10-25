@@ -79,6 +79,7 @@
     const w = weapons[weaponIndex];
     ui.weaponName.textContent = w.name;
     ui.weaponDescription.textContent = w.description;
+    updateLoadoutUI();
   }
 
   function showToast(message) {
@@ -180,6 +181,7 @@
       beep(130, 0.3, "sawtooth", 0.035);
     }
     ui.startBtn.textContent = "RESTART CAMPAIGN";
+    showMainMenu();
   }
 
   function nextLevel() {
@@ -539,6 +541,67 @@
     beep(500 + index * 100, 0.06);
   }
 
+  function updateLoadoutUI() {
+    document.querySelectorAll(".loadout-option").forEach((button) => {
+      const selected = Number(button.dataset.weapon) === weaponIndex;
+      button.classList.toggle("selected", selected);
+      const status = button.querySelector(".weapon-status");
+      if (status) status.textContent = selected ? "EQUIPPED" : "SELECT";
+      button.setAttribute("aria-pressed", String(selected));
+    });
+  }
+
+  document.querySelectorAll(".loadout-option").forEach((button) => {
+    button.addEventListener("click", () => changeWeapon(Number(button.dataset.weapon)));
+  });
+
+  // Premium main menu integration. The menu is optional, so the game
+  // continues to work if the new menu markup has not been added yet.
+  const mainMenu = $("main-menu");
+  const menuStart = $("menu-start");
+  const menuSound = $("menu-sound");
+  const menuBest = $("menu-best");
+  const menuUnlocked = $("menu-unlocked");
+
+  function updateMainMenuStats() {
+    const savedBest = readNumber("cyberstrike-best", best);
+    const savedLevel = Math.max(1, Math.min(MAX_LEVEL,
+      readNumber("cyberstrike-unlocked", unlockedLevel)));
+
+    if (menuBest) menuBest.textContent = fmt(savedBest);
+    if (menuUnlocked) menuUnlocked.textContent =
+      `${String(savedLevel).padStart(2, "0")} / ${String(MAX_LEVEL).padStart(2, "0")}`;
+
+    document.querySelectorAll("[data-mission-state]").forEach((item) => {
+      const missionLevel = Number(item.dataset.missionState);
+      const isUnlocked = missionLevel <= savedLevel;
+      item.textContent = isUnlocked ? "UNLOCKED" : "LOCKED";
+      item.classList.toggle("available", isUnlocked);
+    });
+  }
+
+  function showMainMenu() {
+    if (!mainMenu) return;
+    mainMenu.classList.remove("menu-hidden");
+    updateMainMenuStats();
+    if (menuSound) menuSound.textContent = ui.soundBtn.textContent;
+  }
+
+  if (menuStart && mainMenu) {
+    menuStart.addEventListener("click", () => {
+      mainMenu.classList.add("menu-hidden");
+      // Use the existing start control so the campaign logic stays unchanged.
+      ui.startBtn.click();
+    });
+  }
+
+  if (menuSound) {
+    menuSound.addEventListener("click", () => {
+      ui.soundBtn.click();
+      menuSound.textContent = ui.soundBtn.textContent;
+    });
+  }
+
   canvas.addEventListener("pointermove", (event) => {
     const rect = canvas.getBoundingClientRect();
     pointer.x = (event.clientX - rect.left) * W / rect.width;
@@ -582,29 +645,7 @@
 
   // Initialize a fresh campaign state.
   initState();
+  updateLoadoutUI();
+  updateMainMenuStats();
   draw();
 })();
-
-function updateLoadoutUI() {
-  document.querySelectorAll(".loadout-option").forEach((button) => {
-    const selected = Number(button.dataset.weapon) === weaponIndex;
-
-    button.classList.toggle("selected", selected);
-
-    const status = button.querySelector(".weapon-status");
-    if (status) {
-      status.textContent = selected ? "EQUIPPED" : "SELECT";
-    }
-
-    button.setAttribute("aria-pressed", String(selected));
-  });
-}
-
-document.querySelectorAll(".loadout-option").forEach((button) => {
-  button.addEventListener("click", () => {
-    changeWeapon(Number(button.dataset.weapon));
-    updateLoadoutUI();
-  });
-});
-
-updateLoadoutUI();
